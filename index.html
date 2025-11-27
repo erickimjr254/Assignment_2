@@ -18,7 +18,7 @@
           <p>I'm a researcher and developer passionate about AI, mathematics, computer vision, and emerging technology.</p>
           <p>This website showcases a growing collection of my work — including mathematical explorations, coding projects, and educational tools.</p>
           <p class="links">
-            <a href="mailto:your-email@example.com">Email</a>
+            <a href="mailto:eric254@my.yorku.ca">Email</a>
             <a href="data/EricWachira-CV.pdf">CV</a>
             <a href="#">Bio</a>
             <a href="#">Scholar</a>
@@ -26,39 +26,127 @@
             <a href="#">Github</a>
           </p>
         </div>
-        <img src="images/profile.jpg" alt="Profile Photo">
+        <img src="https://catholickey.org/wp-content/uploads/2021/11/Eric-Wachira-scaled.jpg" alt="Profile Photo">
       </section>
 
       <h2>Mathematical Projects</h2>
 
-      <div class="project-card">
-        <div class="project-title">1. Easy Function: Quadratic Visualizer</div>
-        <p>This project explores the classic quadratic function <em>f(x) = x² − 4x + 3</em>. It includes root analysis, vertex computation, graph visualization, and explanations for beginners learning algebra.</p>
-        <p>Key Features:</p>
-        <ul>
-          <li>Interactive parabola graph</li>
-          <li>Discriminant explanation</li>
-          <li>Vertex and roots calculator</li>
-        </ul>
-      </div>
+<div class="project-card">
+  <div class="project-title">1. Recursive Counting Function (Hard)</div>
+  <p>This project analyzes and visualizes the behavior of a recursive function that counts how many numbers from 0 to <em>num</em> do <strong>not</strong> contain the digit 7:</p>
 
-      <div class="project-card">
-        <div class="project-title">2. Hard Function: Fourier Series Wave Synthesizer</div>
-        <p>This advanced project demonstrates how complex periodic functions can be approximated using Fourier series expansions. It lets users build waves by summing sine and cosine components.</p>
-        <p>Key Features:</p>
-        <ul>
-          <li>Real-time Fourier reconstruction</li>
-          <li>Adjustable number of harmonics</li>
-          <li>Visualization of convergence and error</li>
-        </ul>
-      </div>
+  <pre>
+    <code>
+  static int count_nums_not_7(int num) 
+{ 
+    if (num < 7) 
+        return num; 
+    if (num >= 7 && num < 10) 
+        return num - 1; 
 
-      <footer>
-        © 2025 Eric Wachira — All Rights Reserved
-      </footer>
+    int r = 1; 
+    while (num/r > 9) 
+        r = r * 10; 
+
+    int m = num / r; 
+
+    if (m != 7) 
+        return count_nums_not_7(m) * count_nums_not_7(r - 1) 
+               + count_nums_not_7(m) + count_nums_not_7(num % r); 
+    else
+        return count_nums_not_7(m * r - 1); 
+}
+</code></pre>
+
+  <p>The project explains recursion depth, base cases, digit decomposition, and performance notes.</p>
+</div>
+
+<div class="project-card">
+  <div class="project-title">2. Summation Function (Easy)</div>
+  <p>This project demonstrates a simple function that returns the sum of two integers:</p>
+
+  <pre><code>static int sum_of_2(int num1, int num2)
+{
+    return num1 + num2;
+}
+</code></pre>
+
+  <p>Includes examples, integer overflow discussion, and beginner-level explanations.</p>
+</div>
+
+
+<h2>Try the Functions</h2>
+
+<div class="project-card">
+  <div class="project-title">Test: Count Numbers Without 7</div>
+  <p>Enter a number and press the button to compute how many numbers from 0 to <em>n</em> do <strong>not</strong> contain the digit 7.</p>
+
+  <input id="input_not7" type="number" placeholder="Enter a number" style="padding:10px;width:200px;border-radius:8px;border:1px solid #ccc;">
+  <button onclick="runNot7()" style="padding:10px 16px;border:none;border-radius:8px;background:#0077ff;color:white;font-weight:600;cursor:pointer;">Compute</button>
+
+  <p id="result_not7" style="margin-top:10px;font-weight:600;"></p>
+</div>
+
+<div class="project-card">
+  <div class="project-title">Test: Sum of Two Numbers</div>
+  <p>Enter two numbers and press the button to compute their sum.</p>
+
+  <input id="sum1" type="number" placeholder="Number 1" style="padding:10px;width:150px;border-radius:8px;border:1px solid #ccc;">
+  <input id="sum2" type="number" placeholder="Number 2" style="padding:10px;width:150px;border-radius:8px;border:1px solid #ccc;">
+  <button onclick="runSum()" style="padding:10px 16px;border:none;border-radius:8px;background:#0077ff;color:white;font-weight:600;cursor:pointer;">Add</button>
+
+  <p id="result_sum" style="margin-top:10px;font-weight:600;"></p>
+</div>
+
+<script>
+// Hard recursive function
+function count_nums_not_7(num) {
+  if (num < 7) return num;
+  if (num >= 7 && num < 10) return num - 1;
+
+  let r = 1;
+  while (Math.floor(num / r) > 9) r *= 10;
+
+  let m = Math.floor(num / r);
+
+  if (m !== 7)
+    return count_nums_not_7(m) * count_nums_not_7(r - 1)
+           + count_nums_not_7(m)
+           + count_nums_not_7(num % r);
+  else
+    return count_nums_not_7(m * r - 1);
+}
+
+function runNot7() {
+  const n = parseInt(document.getElementById('input_not7').value);
+  if (isNaN(n)) {
+    document.getElementById('result_not7').innerText = "Please enter a valid number.";
+    return;
+  }
+  document.getElementById('result_not7').innerText = "Result: " + count_nums_not_7(n);
+}
+
+// Easy function
+function sum_of_2(a, b) { return a + b; }
+
+function runSum() {
+  const a = parseInt(document.getElementById('sum1').value);
+  const b = parseInt(document.getElementById('sum2').value);
+
+  if (isNaN(a) || isNaN(b)) {
+    document.getElementById('result_sum').innerText = "Please enter two valid numbers.";
+    return;
+  }
+
+  document.getElementById('result_sum').innerText = "Sum: " + sum_of_2(a, b);
+}
+</script>
     </div>
 
- 
+    <footer>
+  © 2025 Eric Wachira — All Rights Reserved
+</footer>
+
 
   </body>
 </html>
